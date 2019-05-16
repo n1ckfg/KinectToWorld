@@ -37,7 +37,7 @@ class KinectConverter {
     float normalizedX = depthX / resolutionX - 0.5;
     float normalizedY = 0.5 - depthY / resolutionY;
  
-    float pWorldX = normalizedX * depthZ * xzFactor * (((float)resolutionX/(float)resolutionY)*2);
+    float pWorldX = normalizedX * depthZ * yzFactor * -((float)resolutionX/(float)resolutionY);
     float pWorldY = normalizedY * depthZ * yzFactor;
     float pWorldZ = (depthZ / 255) * maxDepthVals;
 
