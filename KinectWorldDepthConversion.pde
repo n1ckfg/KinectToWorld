@@ -1,13 +1,14 @@
-import peasy.PeasyCam;
 
-PeasyCam cam;
 PImage img, imgRgb, imgDepth;
 PShape shp;
+KinectConverter kc;
 
 void setup() {
   size(800, 600, P3D);
-  cam = new PeasyCam(this, 400);
+  kc = new KinectConverter("Structure");
 
+  setupCam();
+  
   img = loadImage("hallway.png");
   imgRgb = img.get(640,120,640,480);
   imgRgb.loadPixels();
@@ -22,8 +23,10 @@ void setup() {
       int loc = x + y * imgRgb.width;
       color c = imgRgb.pixels[loc];
       float z = red(imgDepth.pixels[loc]);
-      shp.stroke(c);
-      shp.vertex(x, y, z);
+      shp.stroke(c, 127);
+      
+      PVector p = kc.convertDepthToWorld(x, y, z);
+      shp.vertex(p.x, p.y, p.z);
     }
   }
   shp.endShape();
