@@ -1,22 +1,69 @@
-class WorldConversionCache {
+// http://www.imaginativeuniversal.com/blog/2014/03/05/quick-reference-kinect-1-vs-kinect-2/
+// https://smeenk.com/kinect-field-of-view-comparison/
+// https://stackoverflow.com/questions/17832238/kinect-intrinsic-parameters-from-field-of-view
+
+class KinectConverter {
+  
+  float horizontalFov;
+  float verticalFov;
+  int resolutionX;
+  int resolutionY;
   
   float xzFactor;
   float yzFactor;
   float coeffX;
   float coeffY;
-  int resolutionX;
-  int resolutionY;
   int halfResX;
   int halfResY;
 
-  WorldConversionCache() {
-    //
+  KinectConverter() { // defaults to Kinect 1
+    resolutionX = 640;
+    resolutionY = 480;
+    horizontalFov = 58.5;
+    verticalFov = 46.6;
+    
+    init();
   }
   
+  KinectConverter(String model) {
+    switch (model) {
+      case "Kinect 2":
+        resolutionX = 512;
+        resolutionY = 424;
+        horizontalFov = 70.6;
+        verticalFov = 60.0;       
+      default:
+        resolutionX = 640;
+        resolutionY = 480;
+        horizontalFov = 58.5;
+        verticalFov = 46.6;
+    }
+    
+    init();
+  }
+  
+  KinectConverter(int _resolutionX, int _resolutionY, float _horizontalFov, float _verticalFov) {
+    resolutionX = _resolutionX;
+    resolutionY = _resolutionY;
+    horizontalFov = _horizontalFov;
+    verticalFov = _verticalFov;
+    init();
+  }
+  
+  void init() {
+    xzFactor = tan(horizontalFov / 2) * 2;
+    yzFactor = tan(verticalFov / 2) * 2;
+    halfResX = resolutionX / 2;
+    halfResY = resolutionY / 2;
+    coeffX = resolutionX / xzFactor;
+    coeffY = resolutionY / yzFactor;  
+  }
 }
 
 
 /*
+// Original OpenNI reference
+
 OniStatus VideoStream::convertDepthToWorldCoordinates(float depthX, float depthY, float depthZ, float* pWorldX, float* pWorldY, float* pWorldZ)
 {
   if (m_pSensorInfo->sensorType != ONI_SENSOR_DEPTH)
