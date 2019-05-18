@@ -12,7 +12,7 @@ class KinectConverter {
   float coeffY;
   int halfResX;
   int halfResY;
-
+   
   KinectConverter() {
     setModel("Kinect");
     init();
@@ -33,16 +33,16 @@ class KinectConverter {
   }
   
   PVector convertDepthToWorld(float depthX, float depthY, float depthZ) {
-    depthZ -= 255;
+    depthZ = abs(255-depthZ);
     float normalizedX = depthX / resolutionX - 0.5;
     float normalizedY = 0.5 - depthY / resolutionY;
  
-    float pWorldX = normalizedX * depthZ * yzFactor * -((float)resolutionX/(float)resolutionY);
+    float pWorldX = normalizedX * depthZ * xzFactor;
     float pWorldY = normalizedY * depthZ * yzFactor;
-    float pWorldZ = (depthZ / 255) * maxDepthVals;
+    float pWorldZ = (depthZ/255) * 2047;
 
     
-    return new PVector(pWorldX, pWorldY, pWorldZ);
+    return new PVector(pWorldX, -pWorldY, -pWorldZ);
   }
 
   PVector convertWorldToDepth(float worldX, float worldY, float worldZ) {
@@ -157,7 +157,7 @@ class KinectConverter {
 // http://www.i3du.gr/pdf/primesense.pdf
 // https://structure.io/structure-core/specs
 // https://www.intel.com/content/www/us/en/support/articles/000030385/emerging-technologies/intel-realsense-technology.html
-
+// https://stackoverflow.com/questions/39389279/c-kinect-v2-freenect2-how-to-convert-depth-data-to-real-world-coordinates
 
 // Original OpenNI reference
 
