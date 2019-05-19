@@ -34,8 +34,23 @@ PVector getPos(PVector[] points, float x, float y, int w) {
   return points[getLoc(x, y, w)];
 }
 
+// http://nicolas.burrus.name/index.php/Research/KinectCalibration
 float rawDepthToMeters(int depthValue) {
-  return (float)(1.0 / ((double)(depthValue) * -0.0030711016 + 3.3309495161));
+  if (depthValue < 2047) {
+    return (float)(1.0 / ((double)(depthValue) * -0.0030711016 + 3.3309495161));
+  }
+  return 0;
+}
+
+// https://groups.google.com/forum/#!topic/openkinect/AxNRhG_TPHg
+float rawDepthToMeters2(int depthValue) {
+  if (depthValue < 2047) {
+    float k1 = 1.1863;
+    float k2 = 2842.5;
+    float k3 = 0.1236;
+    return k3 * tan(depthValue/k2 + k1);
+  }
+  return 0;
 }
 
 int depth2rgb(short depth) {
