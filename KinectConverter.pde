@@ -33,16 +33,12 @@ class KinectConverter {
   }
   
   PVector convertDepthToWorld(float depthX, float depthY, float depthZ) {
-    depthZ = abs(255-depthZ);
-    float normalizedX = depthX / resolutionX - 0.5;
-    float normalizedY = 0.5 - depthY / resolutionY;
- 
-    float pWorldX = normalizedX * depthZ * xzFactor;
-    float pWorldY = normalizedY * depthZ * yzFactor;
-    float pWorldZ = (depthZ/255) * 2047;
-
-    
-    return new PVector(pWorldX, -pWorldY, -pWorldZ);
+    float a = 0.00173667;
+    float z = depthZ;
+    float x = (depthX-320) * a * z;
+    float y = (depthY-240) * a * z;
+  
+    return new PVector(-x, y, z).mult(10);
   }
 
   PVector convertWorldToDepth(float worldX, float worldY, float worldZ) {

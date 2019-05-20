@@ -12,8 +12,8 @@ void setup() {
   setupDepthLookUp();
   
   kc = new KinectConverter(cameraType);
+  kc.resolutionX = 640;
   kc.resolutionY = 480;
-  kc.resolutionX = kc.resolutionY / 2; // why does this work?
   kc.init();
 
   setupCam();
