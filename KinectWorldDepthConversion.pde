@@ -1,5 +1,5 @@
 String cameraType = "Structure";
-String fileName = "mirror.png";
+String fileName = "hallway.png";
 int pointSize = 4;
 int pointAlpha = 200;
 
@@ -9,7 +9,6 @@ KinectConverter kc;
 
 void setup() {
   size(800, 600, P3D);
-  setupDepthLookUp();
   
   kc = new KinectConverter(cameraType);
   kc.init();

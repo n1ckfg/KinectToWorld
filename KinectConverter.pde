@@ -1,17 +1,17 @@
 class KinectConverter {
   
+  // given
   float horizontalFov;
   float verticalFov;
-  int resolutionX;
-  int resolutionY;
-  int maxDepthVals;
-  
+  float resolutionX;
+  float resolutionY;
+  float maxBitDepth;
+  float minDepth;
+  float maxDepth;
+
+  // calculated
   float xzFactor;
   float yzFactor;
-  float coeffX;
-  float coeffY;
-  int halfResX;
-  int halfResY;
    
   KinectConverter() {
     setModel("Kinect");
@@ -26,31 +26,17 @@ class KinectConverter {
   void init() {
     xzFactor = tan(horizontalFov / 2) * 2;
     yzFactor = tan(verticalFov / 2) * 2;
-    halfResX = resolutionX / 2;
-    halfResY = resolutionY / 2;
-    coeffX = (float) resolutionX / xzFactor;
-    coeffY = (float) resolutionY / yzFactor;  
   }
-  
-
-  PVector convertDepthToWorld(float depthX, float depthY, float depthZ) {
-    float normalizedX = depthX / resolutionX;
-    float normalizedY = depthY / resolutionY;
-    float normalizedZ = depthZ / 255;
-
-    float pWorldX = normalizedX * yzFactor;
-    float pWorldY = normalizedY * yzFactor;
-    float pWorldZ = normalizedZ * 20.47;
+ 
+  PVector convertDepthToWorld(float x, float y, float z) {
+    float normX = x / resolutionX - 0.5;
+    float normY = 0.5 - y / resolutionY;
     
-    return new PVector(pWorldX, pWorldY, pWorldZ).mult(100);
-  }
-
-  PVector convertWorldToDepth(float worldX, float worldY, float worldZ) {
-    float pDepthX = coeffX * worldX / worldZ + halfResX;
-    float pDepthY = halfResY - coeffY * worldY / worldZ;
-    float pDepthZ = worldZ;
-    
-    return new PVector(pDepthX, pDepthY, pDepthZ);
+    z = abs(255 - z);
+    float worldZ = map(z, 0, 255, 0, 2047);//minDepth, maxDepth);
+    float worldX = normX * worldZ;
+    float worldY = normY * worldZ;
+    return new PVector(worldX, -worldY, -worldZ);
   }
 
   void setModel(String model) {
@@ -60,85 +46,111 @@ class KinectConverter {
         resolutionY = 576;
         horizontalFov = 75.0;
         verticalFov = 65.0;  
-        maxDepthVals = 2047; // ?
+        maxBitDepth = 2047; // ?
+        minDepth = 400; // ?
+        maxDepth = 5000; // ??
       case "Kinect4_Narrow_Binned":
         resolutionX = 320;
         resolutionY = 288;
         horizontalFov = 75.0;
         verticalFov = 65.0; 
-        maxDepthVals = 2047; // ?
+        maxBitDepth = 2047; // ?
+        minDepth = 400; // ?
+        maxDepth = 5000; // ??
       case "Kinect4_Wide_Unbinned":
         resolutionX = 1024;
         resolutionY = 1024;
         horizontalFov = 120.0;
         verticalFov = 120.0; 
-        maxDepthVals = 2047; // ?
+        maxBitDepth = 2047; // ?
+        minDepth = 400; // ?
+        maxDepth = 5000; // ??
       case "Kinect4_Wide_Binned":
         resolutionX = 512;
         resolutionY = 512;
         horizontalFov = 120.0;
         verticalFov = 120.0; 
-        maxDepthVals = 2047; // ?
+        maxBitDepth = 2047; // ?
+        minDepth = 400; // ?
+        maxDepth = 5000; // ??
       case "Kinect2":
         resolutionX = 512;
         resolutionY = 424;
         horizontalFov = 70.6;
         verticalFov = 60.0;  
-        maxDepthVals = 8191; // 13-bit
+        maxBitDepth = 8191; // 13-bit
       case "Xtion":
         resolutionX = 640;
         resolutionY = 480;
         horizontalFov = 58.0;
         verticalFov = 45.0;   
-        maxDepthVals = 2047; // ?      
+        maxBitDepth = 2047; // ?
+        minDepth = 400; // ?
+        maxDepth = 5000; // ??      
       case "Structure":
         resolutionX = 640;
         resolutionY = 480;
         horizontalFov = 58.0;
         verticalFov = 45.0; 
-        maxDepthVals = 2047; // ?       
+        maxBitDepth = 2047; // ?
+        minDepth = 400; // ?
+        maxDepth = 5000; // ??       
       case "StructureCore_4:3":
         resolutionX = 1280;
         resolutionY = 960;
         horizontalFov = 59.0;
         verticalFov = 46.0; 
-        maxDepthVals = 2047; // ?
+        maxBitDepth = 2047; // ?
+        minDepth = 400; // ?
+        maxDepth = 5000; // ??
       case "StructureCore_16:10":
         resolutionX = 1280;
         resolutionY = 800;
         horizontalFov = 59.0;
         verticalFov = 46.0; 
-        maxDepthVals = 2047; // ?
+        maxBitDepth = 2047; // ?
+        minDepth = 400; // ?
+        maxDepth = 5000; // ??
       case "Carmine1.09": // short range
         resolutionX = 640;
         resolutionY = 480;
         horizontalFov = 57.5;
         verticalFov = 45.0; 
-        maxDepthVals = 2047; // ?
+        maxBitDepth = 2047; // ?
+        minDepth = 400; // ?
+        maxDepth = 5000; // ??
       case "Carmine1.08":
         resolutionX = 640;
         resolutionY = 480;
         horizontalFov = 57.5;
         verticalFov = 45.0; 
-        maxDepthVals = 2047; // ?
+        maxBitDepth = 2047; // ?
+        minDepth = 400; // ?
+        maxDepth = 5000; // ??
       case "RealSense415":
         resolutionX = 1280;
         resolutionY = 720;
         horizontalFov = 64.0;
         verticalFov = 41.0;
-        maxDepthVals = 2047; // ?
+        maxBitDepth = 2047; // ?
+        minDepth = 400; // ?
+        maxDepth = 5000; // ??
       case "RealSense435":
         resolutionX = 1280;
         resolutionY = 720;
         horizontalFov = 86.0;
         verticalFov = 57.0;        
-        maxDepthVals = 2047; // ?
+        maxBitDepth = 2047; // ?
+        minDepth = 400; // ?
+        maxDepth = 5000; // ??
       default:  // Kinect
         resolutionX = 640;
         resolutionY = 480;
         horizontalFov = 58.5;
         verticalFov = 46.6;
-        maxDepthVals = 2047; // 11-bit
+        maxBitDepth = 2047; // ?
+        minDepth = 400; // ?
+        maxDepth = 5000; // ?11-bit
     }
   }
 
