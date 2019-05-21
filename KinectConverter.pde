@@ -33,7 +33,7 @@ class KinectConverter {
     float normY = 0.5 - y / resolutionY;
     
     z = abs(255 - z);
-    float worldZ = map(z, 0, 255, 0, 2047);//minDepth, maxDepth);
+    float worldZ = map(z, 0, 255, minDepth, maxDepth);
     float worldX = normX * worldZ;
     float worldY = normY * worldZ;
     return new PVector(worldX, -worldY, -worldZ);
