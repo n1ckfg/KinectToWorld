@@ -28,6 +28,7 @@ class KinectConverter {
     yzFactor = tan(verticalFov / 2) * 2;
   }
  
+  // per pixel depth in mm
   PVector convertDepthToWorld(float x, float y, float z) {
     float normX = x / resolutionX - 0.5;
     float normY = 0.5 - y / resolutionY;
