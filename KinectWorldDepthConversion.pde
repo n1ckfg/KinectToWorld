@@ -1,5 +1,5 @@
-String cameraType = "Kinect";
-String fileName = "shark.png";
+String cameraType = "Structure";
+String fileName = "mirror.png";
 int pointSize = 4;
 int pointAlpha = 200;
 
@@ -12,8 +12,6 @@ void setup() {
   setupDepthLookUp();
   
   kc = new KinectConverter(cameraType);
-  kc.resolutionX = 640;
-  kc.resolutionY = 480;
   kc.init();
 
   setupCam();
