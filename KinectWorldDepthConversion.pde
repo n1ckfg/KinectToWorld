@@ -1,5 +1,5 @@
-String cameraType = "Structure";
-String fileName = "living_room.png";
+String cameraType = "Xtion";
+String fileName = "tmac.png";
 int pointSize = 4;
 int pointAlpha = 200;
 
