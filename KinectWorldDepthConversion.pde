@@ -1,5 +1,5 @@
-String cameraType = "Xtion";
-String fileName = "tmac.png";
+String cameraType = "Structure";
+String fileName = "gallery.png";
 int pointSize = 4;
 int pointAlpha = 200;
 
