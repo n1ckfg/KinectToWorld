@@ -35,12 +35,11 @@ class KinectConverter {
     
     z = abs(255 - z);
     float worldZ = map(z, 0, 255, minDepth, maxDepth);
-    
     float worldX = normX * worldZ;
     float worldY = normY * worldZ;
     
     if (resolutionX > resolutionY) {
-      worldX *= (resolutionX/resolutionY);
+      worldX *= (resolutionX / resolutionY);
     } else if (resolutionY > resolutionX) {
       worldY *= (resolutionY / resolutionX);
     }
