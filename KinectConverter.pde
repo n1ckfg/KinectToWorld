@@ -35,11 +35,18 @@ class KinectConverter {
     
     z = abs(255 - z);
     float worldZ = map(z, 0, 255, minDepth, maxDepth);
-    float worldX = normX * worldZ;
+    float worldX = normX * worldZ * (resolutionX/resolutionY);
     float worldY = normY * worldZ;
     return new PVector(worldX, -worldY, -worldZ);
   }
 
+  PImage depthFilter(PImage img) {
+    PImage newImg = img.copy();
+    newImg.filter(ERODE);
+    newImg.filter(DILATE);
+    return newImg;
+  }
+  
   void setModel(String model) {
     switch (model) {
       case "Kinect4_Narrow_Unbinned":

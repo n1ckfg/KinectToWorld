@@ -11,7 +11,6 @@ void setup() {
   size(800, 600, P3D);
   
   kc = new KinectConverter(cameraType);
-  kc.init();
 
   setupCam();
   
@@ -19,6 +18,9 @@ void setup() {
   imgRgb = img.get(640,120,640,480);
   imgRgb.loadPixels();
   imgDepth = img.get(0,120,640,480);
+  
+  imgDepth = kc.depthFilter(imgDepth);
+  
   imgDepth.loadPixels();
 
   shp = createShape();
