@@ -2,7 +2,7 @@ class RgbXyz {
   
   ArrayList<RgbXyzPoint> points;
   PGraphics rgbGfx, depthGfx;
-  int dim;
+  int dim, zOffset;
   
   RgbXyz() {
     points = new ArrayList<RgbXyzPoint>();
@@ -16,7 +16,7 @@ class RgbXyz {
   
   RgbXyz(PImage _img, PShape _shp) {
     if (_img.pixels.length != _shp.getVertexCount()) {
-      println("ERROR pixels and vertices don't match");
+      println("ERROR pixel and vertex counts don't match");
       return;
     }
     
@@ -34,6 +34,7 @@ class RgbXyz {
   
   void init() {
     dim = 512;
+    zOffset = dim/2;
     
     rgbGfx = createGraphics(dim, dim, P3D);
     rgbGfx.beginDraw();
@@ -51,7 +52,7 @@ class RgbXyz {
     for(int i=0; i<points.size(); i++) {
       RgbXyzPoint p = points.get(i);        
       rgbGfx.stroke(color(p.r*255, p.g*255, p.b*255));
-      rgbGfx.point(p.x*dim, p.y*dim, p.z*dim - dim);
+      rgbGfx.point(p.x*dim, p.y*dim, p.z*dim - zOffset);
     }
     rgbGfx.endDraw();
     
@@ -59,7 +60,7 @@ class RgbXyz {
     for(int i=0; i<points.size(); i++) {
       RgbXyzPoint p = points.get(i);   
       depthGfx.stroke(color(p.x*255, p.z*255, p.y*255));
-      depthGfx.point(p.x*dim, p.y*dim, p.z*dim - dim);
+      depthGfx.point(p.x*dim, p.y*dim, p.z*dim - zOffset);
     }
     depthGfx.endDraw();
     
@@ -67,8 +68,8 @@ class RgbXyz {
   }
   
   void saveImage() {
-    depthGfx.save("output_depth.png");
-    rgbGfx.save("output_rgb.png");
+    depthGfx.save("render/output_depth.png");
+    rgbGfx.save("render/output_rgb.png");
     
     println("Saved images.");
   }
