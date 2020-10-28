@@ -1,11 +1,12 @@
 String cameraType = "Structure";
-String fileName = "gallery.png";
+String fileName = "mirror.png";
 int pointSize = 4;
 int pointAlpha = 200;
 
 PImage img, imgRgb, imgDepth;
 PShape shp;
 KinectConverter kc;
+RgbXyz rgbxyz;
 
 void setup() {
   size(800, 600, P3D);
@@ -39,6 +40,7 @@ void setup() {
   }
   shp.endShape();
   
+  rgbxyz = new RgbXyz(imgRgb, shp);
 }
 
 void draw() {

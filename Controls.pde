@@ -1,5 +1,5 @@
 void keyPressed() {
 
-  saveFrame("output.png");
+  rgbxyz.writeAll();
   
 }
