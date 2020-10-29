@@ -1,17 +1,15 @@
 class KinectConverter {
   
   // given
-  float horizontalFov;
-  float verticalFov;
-  float resolutionX;
-  float resolutionY;
+  float horizontalFov, verticalFov;
+  float resolutionX, resolutionY;
+  float minDepth, maxDepth;
   float maxBitDepth;
-  float minDepth;
-  float maxDepth;
 
   // calculated
-  float xzFactor;
-  float yzFactor;
+  float xzFactor, yzFactor;
+  float halfResX, halfResY;
+  float coeffX, coeffY;
    
   KinectConverter() {
     setModel("Kinect");
@@ -26,6 +24,10 @@ class KinectConverter {
   void init() {
     xzFactor = tan(horizontalFov / 2) * 2;
     yzFactor = tan(verticalFov / 2) * 2;
+    halfResX = resolutionX / 2;
+    halfResY = resolutionY / 2;
+    coeffX = resolutionX / xzFactor;
+    coeffY = resolutionY / yzFactor;
   }
  
   // per pixel depth in mm
