@@ -1,5 +1,5 @@
 void keyPressed() {
-
-  rgbxyz.writeAll();
+  
+  if (key == ' ') rgbxyz.writeAll();
   
 }

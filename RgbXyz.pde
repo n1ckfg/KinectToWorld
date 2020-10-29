@@ -1,17 +1,17 @@
 class RgbXyz {
   
   ArrayList<RgbXyzPoint> points;
-  PGraphics rgbGfx, depthGfx;
-  int dim, zOffset;
+  PImage rgbImg, depthImg;
+  int dimW, dimH;
   
-  RgbXyz() {
+  RgbXyz(int _dimW, int _dimH) {
     points = new ArrayList<RgbXyzPoint>();
-    init();
+    init(_dimW, _dimH);
   }
   
-  RgbXyz(ArrayList<RgbXyzPoint> _points) {
+  RgbXyz(int _dimW, int _dimH, ArrayList<RgbXyzPoint> _points) {
     points = _points;
-    init();
+    init(_dimW, _dimH);
   }
   
   RgbXyz(PImage _img, PShape _shp) {
@@ -29,47 +29,46 @@ class RgbXyz {
       addPoint(c, p);  
     }
     
-    init();
+    init(_img.width, _img.height);
   }
   
-  void init() {
-    dim = 512;
-    zOffset = dim/2;
+  void init(int _dimW, int _dimH) {
+    dimW = _dimW;
+    dimH = _dimH;
     
-    rgbGfx = createGraphics(dim, dim, P3D);
-    rgbGfx.beginDraw();
-    rgbGfx.background(0);
-    rgbGfx.endDraw();
+    rgbImg = createImage(dimW, dimH, RGB);
+    rgbImg.loadPixels();
     
-    depthGfx = createGraphics(dim, dim, P3D);
-    depthGfx.beginDraw();
-    depthGfx.background(0);
-    depthGfx.endDraw();
+    depthImg = createImage(dimW, dimH, RGB);
+    depthImg.loadPixels();
   }
 
-  void renderImage() {   
-    rgbGfx.beginDraw();
+  boolean renderImage() { 
+      println("points: " + points.size() + ", rgb: " + rgbImg.pixels.length + ", depth: " + depthImg.pixels.length);
+    if (points.size() != rgbImg.pixels.length || points.size() != depthImg.pixels.length) {
+      println("Error rendering images.");
+      return false;
+    }
+    
     for(int i=0; i<points.size(); i++) {
       RgbXyzPoint p = points.get(i);        
-      rgbGfx.stroke(color(p.r*255, p.g*255, p.b*255));
-      rgbGfx.point(p.x*dim, p.y*dim, p.z*dim - zOffset);
+      rgbImg.pixels[i] = color(p.r*255, p.g*255, p.b*255);
     }
-    rgbGfx.endDraw();
+    rgbImg.updatePixels();
     
-    depthGfx.beginDraw();
     for(int i=0; i<points.size(); i++) {
       RgbXyzPoint p = points.get(i);   
-      depthGfx.stroke(color(p.x*255, p.z*255, p.y*255));
-      depthGfx.point(p.x*dim, p.y*dim, p.z*dim - zOffset);
+      depthImg.pixels[i] = color(p.x*255, p.z*255, p.y*255);
     }
-    depthGfx.endDraw();
+    depthImg.updatePixels();
     
     println("Rendered images.");
+    return true;
   }
   
   void saveImage() {
-    depthGfx.save("render/output_depth.png");
-    rgbGfx.save("render/output_rgb.png");
+    depthImg.save("render/output_depth.png");
+    rgbImg.save("render/output_rgb.png");
     
     println("Saved images.");
   }
@@ -77,9 +76,11 @@ class RgbXyz {
   void writeAll() {
     normalizeAll();
     
-    renderImage();
-    
-    saveImage();
+    if (renderImage()) {
+      saveImage();
+    } else {
+      println("No images saved.");
+    }
   }
 
   void addPoint(color _c, PVector _p) {
