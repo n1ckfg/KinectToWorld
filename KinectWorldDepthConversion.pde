@@ -1,5 +1,5 @@
 String cameraType = "Structure";
-String fileName = "mirror.png";
+String fileName = "living_room.png";
 int pointSize = 4;
 int pointAlpha = 200;
 

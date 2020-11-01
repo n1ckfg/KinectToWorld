@@ -56,6 +56,30 @@ class KinectConverter {
     return newImg;
   }
   
+  // raw image from Kinect 1/clones
+  float getDepthMillis(color pix) {       
+    int green = pix >> 8 & 0xFF;       
+    int red = pix >> 16 & 0xFF;       
+    int depthMillis = red << 8 | green;
+    return (float) depthMillis;                
+  }
+  
+  PVector convertMillisToWorld(int x, int y, float depthMillis) {
+    final double fx_d = 1.0 / 5.9421434211923247e+02;
+    final double fy_d = 1.0 / 5.9104053696870778e+02;
+    final double cx_d = 3.3930780975300314e+02;
+    final double cy_d = 2.4273913761751615e+02;
+      
+    double depth = 0;   
+    depth = depthMillis/1000;
+    
+    PVector result = new PVector();
+    result.x = (float) ((x - cx_d) * depth * fx_d);
+    result.y = (float) ((y - cy_d) * depth * fy_d);
+    result.z = (float) depth;
+    return result;
+}
+  
   void setModel(String model) {
     switch (model) {
       case "Kinect4_Narrow_Unbinned":
