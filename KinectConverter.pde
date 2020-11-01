@@ -1,10 +1,12 @@
 class KinectConverter {
   
+  String depthCameraListUrl = "depth_camera_list.json";
+  
   // given
-  float horizontalFov, verticalFov;
   float resolutionX, resolutionY;
-  float minDepth, maxDepth;
-  float maxBitDepth;
+  float horizontalFov, verticalFov;
+  float maxBitDepth; // ?
+  float minDepth, maxDepth; // ?11-bit
 
   // calculated
   float xzFactor, yzFactor;
@@ -12,16 +14,74 @@ class KinectConverter {
   float coeffX, coeffY;
    
   KinectConverter() {
-    setModel("Kinect");
-    init();
+    setModel("Kinect", "default");
   }
   
   KinectConverter(String model) {
-    setModel(model);
-    init();
+    setModel(model, "default");
   }
   
-  void init() {
+  KinectConverter(String model, String mode) {
+    setModel(model, mode);
+  }
+  
+  
+  void setModel(String model, String mode) {
+    try {
+      setModelFromJson(model, mode);
+    } catch (Exception e) {
+      println("Error reading camera list. " + e);
+      setModelDefaults();
+    }
+
+    initModel();
+  }
+  
+  void setModelFromJson(String model, String mode) {
+    JSONObject json = loadJSONObject(depthCameraListUrl);
+    JSONArray camerasJson = json.getJSONArray("cameras");
+    JSONObject modelJson = null;
+    JSONArray modesJson = null;
+    JSONObject modeJson = null;
+    
+    for (int i=0; i<camerasJson.size(); i++) {
+      modelJson = (JSONObject) camerasJson.get(i);
+      if (modelJson.get("name").equals(model)) {
+        println("Found model: " + model);
+        modesJson = modelJson.getJSONArray("modes");
+
+        for (int j=0; j<modesJson.size(); j++) {
+          modeJson = (JSONObject) modesJson.get(j);
+          if (modeJson.get("mode").equals(mode)) {
+            println("Found mode: " + mode);
+            break;
+          }
+        }           
+        
+        break;
+      }
+    }   
+
+    resolutionX = modeJson.getFloat("resolutionX");
+    resolutionY = modeJson.getFloat("resolutionY");
+    horizontalFov = modeJson.getFloat("horizontalFov");
+    verticalFov = modeJson.getFloat("verticalFov");
+    maxBitDepth = modeJson.getFloat("maxBitDepth");
+    minDepth = modeJson.getFloat("minDepth");
+    maxDepth = modeJson.getFloat("maxDepth"); 
+  }
+  
+  void setModelDefaults() { // Kinect 1
+    resolutionX = 640;
+    resolutionY = 480;
+    horizontalFov = 58.5;
+    verticalFov = 46.6;
+    maxBitDepth = 2047; // ?
+    minDepth = 400; // ?
+    maxDepth = 5000; // ?11-bit
+  }
+  
+  void initModel() {
     xzFactor = tan(horizontalFov / 2) * 2;
     yzFactor = tan(verticalFov / 2) * 2;
     halfResX = resolutionX / 2;
@@ -29,6 +89,8 @@ class KinectConverter {
     coeffX = resolutionX / xzFactor;
     coeffY = resolutionY / yzFactor;
   }
+ 
+ // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
  
   // per pixel depth in mm
   PVector convertDepthToWorld(float x, float y, float z) {
@@ -80,128 +142,11 @@ class KinectConverter {
     return result;
 }
   
-  void setModel(String model) {
-    switch (model) {
-      case "Kinect4_Narrow_Unbinned":
-        resolutionX = 640;
-        resolutionY = 576;
-        horizontalFov = 75.0;
-        verticalFov = 65.0;  
-        maxBitDepth = 2047; // ?
-        minDepth = 400; // ?
-        maxDepth = 5000; // ??
-      case "Kinect4_Narrow_Binned":
-        resolutionX = 320;
-        resolutionY = 288;
-        horizontalFov = 75.0;
-        verticalFov = 65.0; 
-        maxBitDepth = 2047; // ?
-        minDepth = 400; // ?
-        maxDepth = 5000; // ??
-      case "Kinect4_Wide_Unbinned":
-        resolutionX = 1024;
-        resolutionY = 1024;
-        horizontalFov = 120.0;
-        verticalFov = 120.0; 
-        maxBitDepth = 2047; // ?
-        minDepth = 400; // ?
-        maxDepth = 5000; // ??
-      case "Kinect4_Wide_Binned":
-        resolutionX = 512;
-        resolutionY = 512;
-        horizontalFov = 120.0;
-        verticalFov = 120.0; 
-        maxBitDepth = 2047; // ?
-        minDepth = 400; // ?
-        maxDepth = 5000; // ??
-      case "Kinect2":
-        resolutionX = 512;
-        resolutionY = 424;
-        horizontalFov = 70.6;
-        verticalFov = 60.0;  
-        maxBitDepth = 8191; // 13-bit
-        minDepth = 400; // ?
-        maxDepth = 5000; // ??
-      case "Xtion":
-        resolutionX = 640;
-        resolutionY = 480;
-        horizontalFov = 58.0;
-        verticalFov = 45.0;   
-        maxBitDepth = 2047; // ?
-        minDepth = 400; // ?
-        maxDepth = 5000; // ??      
-      case "Structure":
-        resolutionX = 640;
-        resolutionY = 480;
-        horizontalFov = 58.0;
-        verticalFov = 45.0; 
-        maxBitDepth = 2047; // ?
-        minDepth = 400; // ?
-        maxDepth = 5000; // ??       
-      case "StructureCore_4:3":
-        resolutionX = 1280;
-        resolutionY = 960;
-        horizontalFov = 59.0;
-        verticalFov = 46.0; 
-        maxBitDepth = 2047; // ?
-        minDepth = 400; // ?
-        maxDepth = 5000; // ??
-      case "StructureCore_16:10":
-        resolutionX = 1280;
-        resolutionY = 800;
-        horizontalFov = 59.0;
-        verticalFov = 46.0; 
-        maxBitDepth = 2047; // ?
-        minDepth = 400; // ?
-        maxDepth = 5000; // ??
-      case "Carmine1.09": // short range
-        resolutionX = 640;
-        resolutionY = 480;
-        horizontalFov = 57.5;
-        verticalFov = 45.0; 
-        maxBitDepth = 2047; // ?
-        minDepth = 400; // ?
-        maxDepth = 5000; // ??
-      case "Carmine1.08":
-        resolutionX = 640;
-        resolutionY = 480;
-        horizontalFov = 57.5;
-        verticalFov = 45.0; 
-        maxBitDepth = 2047; // ?
-        minDepth = 400; // ?
-        maxDepth = 5000; // ??
-      case "RealSense415":
-        resolutionX = 1280;
-        resolutionY = 720;
-        horizontalFov = 64.0;
-        verticalFov = 41.0;
-        maxBitDepth = 2047; // ?
-        minDepth = 400; // ?
-        maxDepth = 5000; // ??
-      case "RealSense435":
-        resolutionX = 1280;
-        resolutionY = 720;
-        horizontalFov = 86.0;
-        verticalFov = 57.0;        
-        maxBitDepth = 2047; // ?
-        minDepth = 400; // ?
-        maxDepth = 5000; // ??
-      default:  // Kinect
-        resolutionX = 640;
-        resolutionY = 480;
-        horizontalFov = 58.5;
-        verticalFov = 46.6;
-        maxBitDepth = 2047; // ?
-        minDepth = 400; // ?
-        maxDepth = 5000; // ?11-bit
-    }
-  }
-
 }
 
 // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
-/*
+/* REFERENCE
 // Links
 // http://www.imaginativeuniversal.com/blog/2014/03/05/quick-reference-kinect-1-vs-kinect-2/
 // https://smeenk.com/kinect-field-of-view-comparison/
