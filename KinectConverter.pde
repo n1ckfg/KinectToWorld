@@ -65,11 +65,11 @@ class KinectConverter {
   }
   
   PVector convertMillisToWorld(int x, int y, float depthMillis) {
-    final double fx_d = 1.0 / 5.9421434211923247e+02;
-    final double fy_d = 1.0 / 5.9104053696870778e+02;
-    final double cx_d = 3.3930780975300314e+02;
-    final double cy_d = 2.4273913761751615e+02;
-      
+    double fx_d = 1.0 / 5.9421434211923247e+02;
+    double fy_d = 1.0 / 5.9104053696870778e+02;
+    double cx_d = 3.3930780975300314e+02;
+    double cy_d = 2.4273913761751615e+02;
+
     double depth = 0;   
     depth = depthMillis/1000;
     
@@ -120,6 +120,8 @@ class KinectConverter {
         horizontalFov = 70.6;
         verticalFov = 60.0;  
         maxBitDepth = 8191; // 13-bit
+        minDepth = 400; // ?
+        maxDepth = 5000; // ??
       case "Xtion":
         resolutionX = 640;
         resolutionY = 480;
@@ -197,6 +199,7 @@ class KinectConverter {
 
 }
 
+// ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 /*
 // Links
