@@ -1,0 +1,3 @@
+[submodule "python/kinect_to_world/kinect_converter.py"]
+	path = python/kinect_to_world/kinect_converter.py
+	url = https://github.com/n1ckfg/kinect_converter.py
