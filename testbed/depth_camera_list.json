@@ -1,0 +1,214 @@
+{
+    "cameras": [
+        {
+            "name": "Kinect 4",
+            "maker": "Microsoft",
+            "aliases": [ "Azure Kinect", "Kinect for Azure" ],
+            "modes": [
+                {
+                    "mode": "Narrow Unbinned",
+                    "resolutionX": 640,
+                    "resolutionY": 576,
+                    "horizontalFov": 75.0,
+                    "verticalFov": 65.0,  
+                    "maxBitDepth": 2047, 
+                    "minDepth": 400, 
+                    "maxDepth": 5000 
+                },
+                {
+                    "mode": "Narrow Binned",
+                    "resolutionX": 320,
+                    "resolutionY": 288,
+                    "horizontalFov": 75.0,
+                    "verticalFov": 65.0, 
+                    "maxBitDepth": 2047, 
+                    "minDepth": 400, 
+                    "maxDepth": 5000 
+                },
+                {
+                    "mode": "Wide Unbinned",
+                    "resolutionX": 1024,
+                    "resolutionY": 1024,
+                    "horizontalFov": 120.0,
+                    "verticalFov": 120.0, 
+                    "maxBitDepth": 2047, 
+                    "minDepth": 400, 
+                    "maxDepth": 5000 
+                },
+                {
+                    "mode": "Wide Binned",
+                    "resolutionX": 512,
+                    "resolutionY": 512,
+                    "horizontalFov": 120.0,
+                    "verticalFov": 120.0, 
+                    "maxBitDepth": 2047, 
+                    "minDepth": 400, 
+                    "maxDepth": 5000 
+                }
+            ]
+        },
+        {
+            "name": "Kinect 2",
+            "maker": "Microsoft",
+            "aliases": [ "Kinect One", "Kinect for Xbox One" ],
+            "modes": [
+                {
+                    "mode": "default",
+                    "resolutionX": 512,
+                    "resolutionY": 424,
+                    "horizontalFov": 70.6,
+                    "verticalFov": 60.0,  
+                    "maxBitDepth": 8191, 
+                    "minDepth": 400, 
+                    "maxDepth": 5000 
+                }
+            ]
+        },
+        {
+            "name": "Kinect",
+            "maker": "Microsoft",
+            "aliases": [ "Kinect 360", "Kinect for Xbox 360" ],
+            "modes": [
+                {
+                    "mode": "default",
+                    "resolutionX": 640,
+                    "resolutionY": 480,
+                    "horizontalFov": 58.5,
+                    "verticalFov": 46.6,
+                    "maxBitDepth": 2047, 
+                    "minDepth": 400, 
+                    "maxDepth": 5000 
+                }
+            ]
+        },
+        {
+            "name": "Xtion",
+            "maker": "Asus",
+            "aliases": [ "Xtion Live", "Xtion Live Pro" ],
+            "modes": [
+                {
+                    "mode": "default",
+                    "resolutionX": 640,
+                    "resolutionY": 480,
+                    "horizontalFov": 58.0,
+                    "verticalFov": 45.0,   
+                    "maxBitDepth": 2047, 
+                    "minDepth": 400, 
+                    "maxDepth": 5000      
+                }
+            ] 
+        },
+        {
+            "name": "Structure",
+            "maker": "Occipital",
+            "aliases": [],
+            "modes": [
+                {
+                    "mode": "default",
+                    "resolutionX": 640,
+                    "resolutionY": 480,
+                    "horizontalFov": 58.0,
+                    "verticalFov": 45.0, 
+                    "maxBitDepth": 2047, 
+                    "minDepth": 400, 
+                    "maxDepth": 5000     
+                }
+            ]                        
+        },
+        {
+            "name": "Structure Core",
+            "maker": "Occipital",
+            "aliases": [],
+            "modes": [
+                {
+                    "mode": "4:3",
+                    "resolutionX": 1280,
+                    "resolutionY": 960,
+                    "horizontalFov": 59.0,
+                    "verticalFov": 46.0, 
+                    "maxBitDepth": 2047, 
+                    "minDepth": 400, 
+                    "maxDepth": 5000 
+                },
+                {
+                    "mode": "16:10",
+                    "resolutionX": 1280,
+                    "resolutionY": 800,
+                    "horizontalFov": 59.0,
+                    "verticalFov": 46.0, 
+                    "maxBitDepth": 2047, 
+                    "minDepth": 400, 
+                    "maxDepth": 5000 
+                }
+            ]
+        },
+        {
+            "name": "Carmine 1.09",
+            "maker": "PrimeSense",
+            "aliases": [],
+            "modes": [
+                {
+                    "mode": "default",
+                    "resolutionX": 640,
+                    "resolutionY": 480,
+                    "horizontalFov": 57.5,
+                    "verticalFov": 45.0, 
+                    "maxBitDepth": 2047, 
+                    "minDepth": 400, 
+                    "maxDepth": 5000 
+                }
+            ]
+        },
+        {
+            "name": "Carmine 1.08",
+            "maker": "PrimeSense",
+            "aliases": [],
+            "modes": [
+                {
+                    "mode": "default",
+                    "resolutionX": 640,
+                    "resolutionY": 480,
+                    "horizontalFov": 57.5,
+                    "verticalFov": 45.0, 
+                    "maxBitDepth": 2047, 
+                    "minDepth": 400, 
+                    "maxDepth": 5000 
+                }
+            ]
+        },
+        {
+            "name": "RealSense 415",
+            "maker": "Intel",
+            "aliases": [],
+            "modes": [
+                {
+                    "mode": "default",
+                    "resolutionX": 1280,
+                    "resolutionY": 720,
+                    "horizontalFov": 64.0,
+                    "verticalFov": 41.0,
+                    "maxBitDepth": 2047, 
+                    "minDepth": 400, 
+                    "maxDepth": 5000 
+                }
+            ]
+        },
+        {
+            "name": "RealSense 435",
+            "maker": "Intel",
+            "aliases": [],
+            "modes": [
+                {
+                    "mode": "default",
+                    "resolutionX": 1280,
+                    "resolutionY": 720,
+                    "horizontalFov": 86.0,
+                    "verticalFov": 57.0,        
+                    "maxBitDepth": 2047, 
+                    "minDepth": 400, 
+                    "maxDepth": 5000 
+                }
+            ]
+        }
+    ]
+}

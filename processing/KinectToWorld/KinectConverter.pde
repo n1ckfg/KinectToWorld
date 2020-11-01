@@ -1,6 +1,6 @@
 class KinectConverter {
   
-  String depthCameraListUrl = "depth_camera_list.json";
+  String depthCameraListUrl = "../../testbed/depth_camera_list.json";
   KinectUtil util;
   
   // given
