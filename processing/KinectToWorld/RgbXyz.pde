@@ -73,6 +73,16 @@ class RgbXyz {
     println("Saved images.");
   }
   
+  void renderAndWriteImage(String url) {
+    normalizeAll();
+    if (renderImage()) {
+      depthImg.save(url + "_depth.png");
+      rgbImg.save(url + "_rgb.png");
+      
+      println("Saved images.");
+    }
+  }
+  
   void writeAll() {
     normalizeAll();
     
