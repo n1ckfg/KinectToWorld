@@ -171,14 +171,8 @@ float tween(float v1, float v2, float e) {
 void prepGraphics() {
   targetImg = createGraphics(img.width, img.height, P2D);
   
-  //img = loadImage(fileName);
-  imgDepthNorm = img16.img.get(); // non-normalized
+  imgDepthNorm = img16.img; 
   imgDepthNorm.loadPixels();
-  imgRgbXyz = img16.img.get();
-  
-  //imgRgbXyz = kc.depthFilter(imgRgbXyz);
-  
-  imgRgbXyz.loadPixels();
 
   shp = createShape();
   shp.beginShape(POINTS);
