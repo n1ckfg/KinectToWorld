@@ -67,8 +67,8 @@ class RgbXyz {
   }
   
   void saveImage() {
-    depthImg.save("render/output_depth.png");
-    rgbImg.save("render/output_rgb.png");
+    depthImg.save("render/output_rgbxyz.png");
+    rgbImg.save("render/output_depthnorm.png");
     
     println("Saved images.");
   }

@@ -2,7 +2,7 @@ String cameraType = "Structure";
 int pointSize = 4;
 int pointAlpha = 200;
 
-PImage imgRgb, imgDepth;
+PImage imgDepthNorm, imgRgbXyz;
 PShape shp;
 KinectConverter kc;
 RgbXyz rgbxyz;

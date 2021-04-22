@@ -1,7 +1,6 @@
 class KinectConverter {
   
   String depthCameraListUrl = "../../common/depth_camera_list.json";
-  KinectUtil util;
   
   // given
   float resolutionX, resolutionY;
@@ -82,9 +81,7 @@ class KinectConverter {
     maxDepth = 5000; // ?11-bit
   }
   
-  void init() {
-    util = new KinectUtil();
-    
+  void init() {   
     xzFactor = tan(horizontalFov / 2) * 2;
     yzFactor = tan(verticalFov / 2) * 2;
     halfResX = resolutionX / 2;
@@ -100,14 +97,8 @@ class KinectConverter {
     float normX = x / resolutionX - 0.5;
     float normY = 0.5 - y / resolutionY;
     
-    float worldZ;
-    
-    if (!bpc16Mode) {
-      z = abs(255 - z);
-      worldZ = map(z, 0, 255, minDepth, maxDepth);
-    } else {
-      worldZ = abs(maxDepth - z);
-    }
+    //float worldZ = map(z, 0, 255, minDepth, maxDepth);
+    float worldZ = abs(maxDepth - z);
 
     float worldX = normX * worldZ;
     float worldY = normY * worldZ;

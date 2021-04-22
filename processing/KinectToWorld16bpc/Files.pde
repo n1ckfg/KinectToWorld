@@ -153,7 +153,7 @@ void nextImage(int _n) {
   String imgFile = (String) imgNames.get(_n);
 
   img16 = new Read16bpc(imgFile);
-  img = img16.imgCropped;
+  img = img16.img;
 
   println("RENDERING frame " + (counter+1) + " of " + imgNames.size());
 }
@@ -172,28 +172,23 @@ void prepGraphics() {
   targetImg = createGraphics(img.width, img.height, P2D);
   
   //img = loadImage(fileName);
-  imgRgb = img16.imgCropped; // non-normalized
-  imgRgb.loadPixels();
-  imgDepth = img.get(0,120,640,480);
+  imgDepthNorm = img16.img.get(); // non-normalized
+  imgDepthNorm.loadPixels();
+  imgRgbXyz = img16.img.get();
   
-  //imgDepth = kc.depthFilter(imgDepth);
+  //imgRgbXyz = kc.depthFilter(imgRgbXyz);
   
-  imgDepth.loadPixels();
+  imgRgbXyz.loadPixels();
 
   shp = createShape();
   shp.beginShape(POINTS);
   shp.strokeWeight(pointSize);
-  for (int y=0; y<imgRgb.height; y++) {
-    for (int x=0; x<imgRgb.width; x++) {
-      int loc = x + y * imgRgb.width;
-      color c = imgRgb.pixels[loc];
-      float z;
-      //if (!bpc16Mode) {
-        z = red(imgDepth.pixels[loc]);
-      //} else {
-        //z = (float) img16.bPixels[loc];
-        println("!!" + z);
-      //}
+  for (int y=0; y<imgDepthNorm.height; y++) {
+    for (int x=0; x<imgDepthNorm.width; x++) {
+      int loc = x + y * imgDepthNorm.width;
+      color c = imgDepthNorm.pixels[loc];
+      float z = (float) img16.bPixels[loc];
+
       shp.stroke(c, pointAlpha);
       
       PVector p = kc.convertDepthToWorld(x, y, z);
@@ -202,5 +197,5 @@ void prepGraphics() {
   }
   shp.endShape();
   
-  rgbxyz = new RgbXyz(imgRgb, shp);
+  rgbxyz = new RgbXyz(imgDepthNorm, shp);
 }

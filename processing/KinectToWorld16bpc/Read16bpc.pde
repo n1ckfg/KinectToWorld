@@ -9,9 +9,9 @@ import javax.imageio.ImageIO;
 
 class Read16bpc {
  
-  BufferedImage bImg, bImgCropped;
-  short[] bPixels, bPixelsCropped;
-  PImage img, imgCropped;
+  BufferedImage bImg;
+  short[] bPixels;
+  PImage img;
   
   int minVal;
   int maxVal;
@@ -22,7 +22,6 @@ class Read16bpc {
     minVal = 0;
     maxVal = 0;
     try {
-        //bImg = ImageIO.read(new File(dataPath(""), _url));
         bImg = ImageIO.read(new File(_url));
     } catch (IOException e) {
         e.printStackTrace();
@@ -30,16 +29,13 @@ class Read16bpc {
 
     bPixels = getBImagePixels(bImg);
 
-    bImgCropped = cropBImage(bImg, 0, 120, 640, 480);
-    bPixelsCropped = getBImagePixels(bImgCropped);
-
     bImageToPImage();
     bImageNormToPImage();
   }
   
   void bImageNormToPImage() {
-    for (int i=0; i<bPixelsCropped.length; i++) {
-      int val = (int) bPixelsCropped[i];
+    for (int i=0; i<bPixels.length; i++) {
+      int val = (int) bPixels[i];
       if (val < minVal) {
         minVal = val;
       } else if (val > maxVal) {
@@ -51,15 +47,15 @@ class Read16bpc {
     minValF = (float) minVal;
     maxValF = (float) maxVal;
       
-    imgCropped = createImage(bImgCropped.getWidth(), bImgCropped.getHeight(), RGB);
-    imgCropped.loadPixels();
+    img = createImage(bImg.getWidth(), bImg.getHeight(), RGB);
+    img.loadPixels();
     
-    for (int i=0; i<imgCropped.pixels.length; i++) {
-      float valF = (float) bPixelsCropped[i];
+    for (int i=0; i<img.pixels.length; i++) {
+      float valF = (float) bPixels[i];
 
-      imgCropped.pixels[i] = color(map(valF, minValF, maxValF, 0, 255));
+      img.pixels[i] = color(map(valF, minValF, maxValF, 0, 255));
     }
-    imgCropped.updatePixels();
+    img.updatePixels();
   }
   
   void bImageToPImage() {
