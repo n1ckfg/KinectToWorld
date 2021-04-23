@@ -53,7 +53,11 @@ class Read16bpc {
     for (int i=0; i<img.pixels.length; i++) {
       float valF = (float) bPixels[i];
 
-      img.pixels[i] = color(map(valF, minValF, maxValF, 0, 255));
+      float val = map(valF, minValF, maxValF, 255, 0);
+      if (val > 254) val = 0;
+      
+      img.pixels[i] = color(val);
+      
     }
     img.updatePixels();
   }

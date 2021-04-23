@@ -44,12 +44,12 @@ class RgbXyz {
   }
 
   boolean renderImage() { 
-      println("points: " + points.size() + ", rgb: " + rgbImg.pixels.length + ", depth: " + depthImg.pixels.length);
+    println("points: " + points.size() + ", rgb: " + rgbImg.pixels.length + ", depth: " + depthImg.pixels.length);
     if (points.size() != rgbImg.pixels.length || points.size() != depthImg.pixels.length) {
       println("Error rendering images.");
       return false;
     }
-    
+        
     for(int i=0; i<points.size(); i++) {
       RgbXyzPoint p = points.get(i);        
       rgbImg.pixels[i] = color(p.r*255, p.g*255, p.b*255);
@@ -58,10 +58,14 @@ class RgbXyz {
     
     for(int i=0; i<points.size(); i++) {
       RgbXyzPoint p = points.get(i);   
-      depthImg.pixels[i] = color(p.x*255, p.z*255, p.y*255);
+      if (rgbImg.pixels[i] != color(0)) {
+        depthImg.pixels[i] = color(p.x*255, p.z*255, p.y*255);
+      } else {
+        depthImg.pixels[i] = color(p.x*255, p.z*255, 0);
+      }
     }
     depthImg.updatePixels();
-    
+
     println("Rendered images.");
     return true;
   }
@@ -76,8 +80,8 @@ class RgbXyz {
   void renderAndWriteImage(String url) {
     normalizeAll();
     if (renderImage()) {
-      depthImg.save(url + "_depth.png");
-      rgbImg.save(url + "_rgb.png");
+      depthImg.save(url + "_rgbxyz.png");
+      rgbImg.save(url + "_depthnorm.png");
       
       println("Saved images.");
     }

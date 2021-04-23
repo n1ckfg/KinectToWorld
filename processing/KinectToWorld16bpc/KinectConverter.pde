@@ -98,7 +98,7 @@ class KinectConverter {
     float normY = 0.5 - y / resolutionY;
     
     //float worldZ = map(z, 0, 255, minDepth, maxDepth);
-    float worldZ = abs(maxDepth - z);
+    float worldZ = abs(img16.maxVal - z);
 
     float worldX = normX * worldZ;
     float worldY = normY * worldZ;
@@ -109,7 +109,7 @@ class KinectConverter {
       worldY *= (resolutionY / resolutionX);
     }
     
-    return new PVector(worldX, -worldY, -worldZ);
+    return new PVector(worldX, -worldZ, worldY);
   }
 
   PImage depthFilter(PImage img) {
