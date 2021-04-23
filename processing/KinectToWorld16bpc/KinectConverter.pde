@@ -116,7 +116,6 @@ class KinectConverter {
     
     PVector returns = new PVector(-worldX, -worldZ, -worldY);
     
-    println(returns);
     return returns;
   }
 
