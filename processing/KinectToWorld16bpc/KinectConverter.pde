@@ -12,7 +12,9 @@ class KinectConverter {
   float xzFactor, yzFactor;
   float halfResX, halfResY;
   float coeffX, coeffY;
-    
+  
+  KinectUtil ku;
+  
   KinectConverter() {
     setModel("Kinect", "default");
   }
@@ -27,6 +29,7 @@ class KinectConverter {
   
   
   void setModel(String model, String mode) {
+    ku = new KinectUtil();
     try {
       setModelFromJson(model, mode);
     } catch (Exception e) {
@@ -103,13 +106,18 @@ class KinectConverter {
     float worldX = normX * worldZ;
     float worldY = normY * worldZ;
     
+    /*
     if (resolutionX > resolutionY) {
       worldX *= (resolutionX / resolutionY);
     } else if (resolutionY > resolutionX) {
       worldY *= (resolutionY / resolutionX);
     }
+    */
     
-    return new PVector(worldX, -worldZ, worldY);
+    PVector returns = new PVector(-worldX, -worldZ, -worldY);
+    
+    println(returns);
+    return returns;
   }
 
   PImage depthFilter(PImage img) {

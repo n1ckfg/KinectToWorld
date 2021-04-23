@@ -61,7 +61,7 @@ class RgbXyz {
       if (rgbImg.pixels[i] != color(0)) {
         depthImg.pixels[i] = color(p.x*255, p.z*255, p.y*255);
       } else {
-        depthImg.pixels[i] = color(p.x*255, p.z*255, 0);
+        depthImg.pixels[i] = color(p.x*255, p.z*255, 255);
       }
     }
     depthImg.updatePixels();
@@ -145,7 +145,7 @@ class RgbXyz {
       minZ = compareMin(minZ, p.z);
       maxZ = compareMax(maxZ, p.z);
 
-      println("Measured " + (i+1) + " / " + points.size());
+      //println("Measured " + (i+1) + " / " + points.size());
     }
     
     for (int i=0; i<points.size(); i++) {
@@ -159,7 +159,7 @@ class RgbXyz {
       p.y = map(p.y, minY, maxY, 0, 1);
       p.z = map(p.z, minZ, maxZ, 0, 1);
       
-      println("Normalized " + (i+1) + " / " + points.size());
+      //println("Normalized " + (i+1) + " / " + points.size());
     }
   }
   
