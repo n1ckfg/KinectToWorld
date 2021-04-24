@@ -18,6 +18,9 @@ void filesLoadedChecker() {
     nextImage(counter);
     prepGraphics();
     surface.setSize(img.width, img.height);
+  
+    initInpainter();
+    
     firstRun = false;
   }
 }

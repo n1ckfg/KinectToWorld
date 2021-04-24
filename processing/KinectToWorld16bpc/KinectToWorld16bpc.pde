@@ -13,7 +13,7 @@ void setup() {
   
   kc = new KinectConverter(cameraType);
 
-  setupCam();
+  setupCam();  
 }
 
 void draw() {

@@ -55,6 +55,7 @@ class RgbXyz {
       rgbImg.pixels[i] = color(p.r*255, p.g*255, p.b*255);
     }
     rgbImg.updatePixels();
+    rgbImg = runInpainter(rgbImg, true);
     
     for(int i=0; i<points.size(); i++) {
       RgbXyzPoint p = points.get(i);   
@@ -65,6 +66,7 @@ class RgbXyz {
       }
     }
     depthImg.updatePixels();
+    depthImg = runInpainter(depthImg, false);
 
     println("Rendered images.");
     return true;
