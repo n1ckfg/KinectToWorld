@@ -55,7 +55,8 @@ class RgbXyz {
       rgbImg.pixels[i] = color(p.r*255, p.g*255, p.b*255);
     }
     rgbImg.updatePixels();
-    rgbImg = runInpainter(rgbImg, true);
+    // Mask is set to true because we want to use the black areas of the normalized depth map.
+    if (doInpainting) rgbImg = runInpainter(rgbImg, true);
     
     for(int i=0; i<points.size(); i++) {
       RgbXyzPoint p = points.get(i);   
@@ -66,7 +67,8 @@ class RgbXyz {
       }
     }
     depthImg.updatePixels();
-    depthImg = runInpainter(depthImg, false);
+    // We reuse the mask above because the rgbxyz version doesn't have solid color areas.
+    if (doInpainting) depthImg = runInpainter(depthImg, false);
 
     println("Rendered images.");
     return true;

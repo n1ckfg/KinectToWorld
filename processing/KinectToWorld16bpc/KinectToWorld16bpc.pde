@@ -7,7 +7,8 @@ PShape shp;
 KinectConverter kc;
 RgbXyz rgbxyz;
 
-boolean doFileLoop = false;
+boolean doFileLoop = true;
+boolean doInpainting = true;
 
 void setup() {
   size(800, 600, P3D);
