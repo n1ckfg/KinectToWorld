@@ -1,5 +1,5 @@
 void keyPressed() {
   
-  if (key == ' ') rgbxyz.writeAll();
+  if (key == ' ') doFileLoop = !doFileLoop; //rgbxyz.writeAll();
   
 }

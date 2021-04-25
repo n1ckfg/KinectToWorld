@@ -1,5 +1,12 @@
 class KinectUtil {
   
+  int DEPTH_LIMIT = 2047;
+  
+  KinectUtil() {
+    setupDepthLookUp();
+  }
+  
+  /*
   int kinectLookupTableSize = 10000;
   float kinectDepthScale = 10;
   float[] kinectLookupTable = new float[kinectLookupTableSize];
@@ -13,6 +20,7 @@ class KinectUtil {
   float getGrayDepthValue(int val) {
     return kinectLookupTable[val];
   }
+  */
   
   int gray(color value) { 
     return max((value >> 16) & 0xff, (value >> 8 ) & 0xff, value & 0xff);
@@ -37,7 +45,7 @@ class KinectUtil {
   }
   
   float rawDepthToMeters(int depthValue) {
-    if (depthValue < 2047) {
+    if (depthValue < DEPTH_LIMIT) {
       return (float)(1.0 / ((double)(depthValue) * -0.0030711016 + 3.3309495161));
     }
     return 0.0;
@@ -46,7 +54,7 @@ class KinectUtil {
   int depth2rgb(short depth) {
     int r,g,b;
   
-    float v = depth / 2047f;
+    float v = depth / (float) DEPTH_LIMIT;
     v = (float) Math.pow(v, 3)* 6;
     v = v*6*256;
   
@@ -99,7 +107,7 @@ class KinectUtil {
   }
   
   int depth2intensity(int depth) {//short depth) {
-    float maxDepth = 8000f; //2047f;
+    float maxDepth = 8000f; //(float) DEPTH_LIMIT;
     int d = round((1 - (depth / maxDepth)) * 255f);
     int pixel = (0xFF) << 24
         | (d & 0xFF) << 16
@@ -114,12 +122,14 @@ class KinectUtil {
   double cx_d = 3.3930780975300314e+02;
   double cy_d = 2.4273913761751615e+02;
     
-  PVector depthToWorld(int x, int y, float [] depthLookUp, int depthValue) {
-    PVector result = new PVector();
-    double depth =  depthLookUp[depthValue];
-    result.x = (float)((x - cx_d) * depth * fx_d);
-    result.y = (float)((y - cy_d) * depth * fy_d);
-    result.z = (float)(depth);
+  PVector depthToWorld(int x, int y, int depthValue) {
+    PVector result = new PVector(0,0,0);
+    if (depthValue < depthLookUp.length) {
+      double depth =  depthLookUp[depthValue];
+      result.x = (float)((x - cx_d) * depth * fx_d);
+      result.y = (float)((y - cy_d) * depth * fy_d);
+      result.z = (float)(depth);
+    }
     return result;
   }
   
@@ -147,14 +157,14 @@ class KinectUtil {
       return (float) depthMillis;                
     }
     
-    PVector convertMillisToWorld(int x, int y, float depthMillis) {
+    PVector convertMillisToWorld(int x, int y, int depthMillis) {
       double fx_d = 1.0 / 5.9421434211923247e+02;
       double fy_d = 1.0 / 5.9104053696870778e+02;
       double cx_d = 3.3930780975300314e+02;
       double cy_d = 2.4273913761751615e+02;
   
       double depth = 0;   
-      depth = depthMillis/1000;
+      depth = depthMillis; ///1000;
       
       PVector result = new PVector();
       result.x = (float) ((x - cx_d) * depth * fx_d);

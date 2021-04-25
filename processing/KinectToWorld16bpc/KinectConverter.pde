@@ -30,6 +30,7 @@ class KinectConverter {
   
   void setModel(String model, String mode) {
     ku = new KinectUtil();
+    
     try {
       setModelFromJson(model, mode);
     } catch (Exception e) {
@@ -96,7 +97,8 @@ class KinectConverter {
  // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
  
   // per pixel depth in mm
-  PVector convertDepthToWorld(float x, float y, float z) {
+  PVector convertDepthToWorld(int x, int y, int z) {
+    /*
     float normX = x / resolutionX - 0.5;
     float normY = 0.5 - y / resolutionY;
     
@@ -105,16 +107,9 @@ class KinectConverter {
 
     float worldX = normX * worldZ;
     float worldY = normY * worldZ;
-    
-    /*
-    if (resolutionX > resolutionY) {
-      worldX *= (resolutionX / resolutionY);
-    } else if (resolutionY > resolutionX) {
-      worldY *= (resolutionY / resolutionX);
-    }
     */
-    
-    PVector returns = new PVector(-worldX, -worldZ, -worldY);
+    PVector worldCoords = ku.convertMillisToWorld(x, y, z);
+    PVector returns = new PVector(-worldCoords.x, -worldCoords.z, -worldCoords.y);
     
     return returns;
   }

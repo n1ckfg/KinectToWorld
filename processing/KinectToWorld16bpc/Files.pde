@@ -184,7 +184,7 @@ void prepGraphics() {
     for (int x=0; x<imgDepthNorm.width; x++) {
       int loc = x + y * imgDepthNorm.width;
       color c = imgDepthNorm.pixels[loc];
-      float z = (float) img16.bPixels[loc];
+      int z = (int) img16.bPixels[loc];
 
       shp.stroke(c, pointAlpha);
       

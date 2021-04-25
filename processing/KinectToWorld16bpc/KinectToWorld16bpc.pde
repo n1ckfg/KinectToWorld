@@ -6,7 +6,9 @@ PImage imgDepthNorm;
 PShape shp;
 KinectConverter kc;
 RgbXyz rgbxyz;
- 
+
+boolean doFileLoop = false;
+
 void setup() {
   size(800, 600, P3D);
   chooseFolderDialog();
@@ -21,9 +23,12 @@ void draw() {
     filesLoadedChecker();
   } else {
     background(0);
-    shape(shp, -width/2, -height/2);
-
-    fileLoop();
+    
+    pushMatrix();
+    shape(shp, 0, 0);// -width/2, -height/2);
+    popMatrix();
+    
+    if (doFileLoop) fileLoop();
 
     surface.setTitle("" + frameRate);
   }
