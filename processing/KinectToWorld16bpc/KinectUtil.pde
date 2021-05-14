@@ -173,6 +173,35 @@ class KinectUtil {
       return result;
   }
 
+  PVector convertMillisToWorldV2(int x, int y, int depthMillis) {
+    PVector returns = new PVector(0,0,0);
+    /*
+    int count = 0;
+    float normX, normY, z;
+    float fac_XZ = tan(FOV_H/2)*2;
+    float fac_YZ = tan(FOV_V/2)*2;
+    float *xyzList = (float*) malloc(WIDTH*HEIGHT*3*sizeof(float));
+  
+    // Do filtering on 'shortxyzList' here.
+  
+    memset(xyzList, 0, WIDTH*HEIGHT*3*sizeof(float));
+  
+    for (int i = 0; i < WIDTH*HEIGHT; i++) 
+      xyzList[i*3 + 2] = (float)depthList[i];
+    
+    for (int i = 0; i < HEIGHT*WIDTH; i++) {
+      z = xyzList[i*3+2];
+      normX = (i % WIDTH) / (float)WIDTH - 0.5f;
+      normY = 0.5f - (int)(i/WIDTH) / (float)HEIGHT;
+  
+      xyzList[i*3+0] = normX * z * fac_XZ;
+      xyzList[i*3+1] = normY * z * fac_YZ;
+      xyzList[i*3+2] = z;
+    }
+    */
+    return returns;
+  }
+    
   // ~ ~ ~ ~ ~
 
   float maxDistance = -1.0;
